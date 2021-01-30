@@ -50,6 +50,10 @@ function startVideo() {
 //   console.log(bestMatch.toString())
 // }
 
+// console.log(`Descriptor ${results.descriptor}`)
+// var img = new Image();   // Create new img element
+// img.src = 'Justin.jpg'; // Set source path
+
 video.addEventListener('play', () => {
   // console.log('thiru');
 
@@ -58,24 +62,28 @@ video.addEventListener('play', () => {
   const displaySize = { width: video.width, height: video.height };
   faceapi.matchDimensions(canvas, displaySize);
 
-
   setInterval(async () => {
+ 
+    const results = await faceapi
+      .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks()
+      .withFaceDescriptor();
+
     const detections = await faceapi
       .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
       .withFaceLandmarks()
       .withFaceDescriptor();
-    console.log(`Descriptor ${detections.descriptor}`)
+    // console.log(`Descriptor ${detections.detections}`)
+    const faceMatcher = new faceapi.FaceMatcher(detections)
+    const bestMatch = faceMatcher.findBestMatch(results.descriptor)
     socket.emit( 'my event', {
       data: detections
     })
     
-
-
     const resizedDetections = faceapi.resizeResults(detections, displaySize);
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     faceapi.draw.drawDetections(canvas, resizedDetections);
-    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
 
-    console.log(detections);
+    console.log(bestMatch);
   }, 100)
 })
