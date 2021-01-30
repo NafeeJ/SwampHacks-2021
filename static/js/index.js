@@ -75,15 +75,22 @@ video.addEventListener('play', () => {
       .withFaceDescriptor();
     // console.log(`Descriptor ${detections.detections}`)
     const faceMatcher = new faceapi.FaceMatcher(detections)
-    const bestMatch = faceMatcher.findBestMatch(results.descriptor)
-    socket.emit( 'my event', {
-      data: detections
-    })
+    const bestMatch = faceMatcher.matchDescriptor(results.descriptor)
+    // socket.emit( 'my event', {
+    //   data: detections
+    // })
     
     const resizedDetections = faceapi.resizeResults(detections, displaySize);
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-    faceapi.draw.drawDetections(canvas, resizedDetections);
+    const box = { x: detections.landmarks.positions[0].x, y: detections.landmarks.positions[0].y, width: 200, height: 200 }
+    // see DrawBoxOptions below
+    const drawOptions = {
+      label: bestMatch,
+      lineWidth: 2
+    }
+    const drawBox = new faceapi.draw.DrawBox(box, drawOptions)
+    drawBox.draw(canvas)
 
-    console.log(bestMatch);
+    console.log(detections.landmarks.positions[0].x);
   }, 100)
 })
