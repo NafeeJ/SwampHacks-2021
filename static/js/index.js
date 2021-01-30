@@ -12,14 +12,13 @@ Promise.all([
   faceapi.loadTinyFaceDetectorModel("http://127.0.0.1:5000/static/models/"),
   faceapi.loadFaceLandmarkModel("http://127.0.0.1:5000/static/models/"),
   faceapi.loadFaceLandmarkTinyModel("http://127.0.0.1:5000/static/models/"),
-  faceapi.loadFaceRecognitionModel("http://127.0.0.1:5000/static/models/"),
-  faceapi.loadFaceExpressionModel("http://127.0.0.1:5000/static/models/"),
+  faceapi.loadFaceRecognitionModel("http://127.0.0.1:5000/static/models/")
 ])
   .then(startVideo)
   .catch(err => console.error(err));
 
 function startVideo() {
-  console.log("access");
+  console.log("Video Started");
   navigator.getUserMedia(
     {
       video: {}
@@ -28,6 +27,28 @@ function startVideo() {
     err => console.error(err)
   )
 }
+// const results = await faceapi
+//   .detectAllFaces(referenceImage)
+//   .withFaceLandmarks()
+//   .withFaceDescriptors()
+
+// if (!results.length) {
+//   return
+// }
+
+// // create FaceMatcher with automatically assigned labels
+// // from the detection results for the reference image
+// const faceMatcher = new faceapi.FaceMatcher(results)
+
+// const singleResult = await faceapi
+//   .detectSingleFace(queryImage1)
+//   .withFaceLandmarks()
+//   .withFaceDescriptor()
+
+// if (singleResult) {
+//   const bestMatch = faceMatcher.findBestMatch(singleResult.descriptor)
+//   console.log(bestMatch.toString())
+// }
 
 video.addEventListener('play', () => {
   // console.log('thiru');
@@ -40,10 +61,10 @@ video.addEventListener('play', () => {
 
   setInterval(async () => {
     const detections = await faceapi
-      .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+      .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
       .withFaceLandmarks()
-      .withFaceExpressions();
-    console.log(detections)
+      .withFaceDescriptor();
+    console.log(`Descriptor ${detections.descriptor}`)
     socket.emit( 'my event', {
       data: detections
     })
@@ -54,7 +75,6 @@ video.addEventListener('play', () => {
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     faceapi.draw.drawDetections(canvas, resizedDetections);
     faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-    faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
 
     console.log(detections);
   }, 100)
