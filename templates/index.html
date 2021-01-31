@@ -3,8 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human Credentials</title>
-    <link rel="stylesheet" href="style.css"/>
-    
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainpage.css') }}">
 </head>
 <body>
     <header id=header>
@@ -25,11 +24,12 @@
           </div>
           <input class="btn" type="submit" value="Submit">
           <button id="face-setup" onclick="startVideo()">Setup Face Recognition</button>
+          <video class="center" id="video" width="720px" height="560px" autoplay muted></video>
         </form>
 
     </section>
 
-    <video id="video" width="720px" height="560px" autoplay muted></video>
+   
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
