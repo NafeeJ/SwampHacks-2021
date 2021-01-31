@@ -1,21 +1,41 @@
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <title>Face Detection</title>
-  <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Credentials</title>
+    <link rel="stylesheet" href="style.css"/>
+    
 </head>
-
 <body>
-  <video id="video" width="720px" height="560px" autoplay muted></video>
-</body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename = 'js/face-api.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename = 'js/index.js') }}"></script>
+    <header id=header>
+        <h1>Human Credentials</h1>
+    </header>
 
+    <section class="container">
+        <form id="my-form">
+          <h1>Login</h1>
+          <div class="msg"></div>
+          <div>
+            <label for="name">Email:</label>
+            <input type="text" id="name">
+          </div>
+          <div>
+            <label for="email">Password:</label>
+            <input type="password" id="password">
+          </div>
+          <input class="btn" type="submit" value="Submit">
+          <button id="face-setup" onclick="startVideo()">Setup Face Recognition</button>
+        </form>
+
+    </section>
+
+    <video id="video" width="720px" height="560px" autoplay muted></video>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/face-api.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/index.js') }}"></script>
+    <script src="..\static\js\index.js"></script>
+
+</body>
 </html>

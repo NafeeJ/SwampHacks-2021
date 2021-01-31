@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 html, body {
-    height: 100vh;
     font-family: 'Roboto';
     display: flex;
     flex-direction: column;
@@ -47,7 +46,7 @@ html, body {
     border: 1px solid #ccc;
   }
   
-  .btn {
+  .btn, #face-setup {
     display: block;
     width: 100%;
     padding: 10px 15px;
