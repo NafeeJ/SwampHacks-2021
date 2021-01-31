@@ -1,3 +1,5 @@
+const { writeFile } = require("fs");
+
 const video = document.getElementById('video');
 
 var socket = io.connect('http://127.0.0.1:5000');
@@ -68,6 +70,8 @@ video.addEventListener('play', () => {
       .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
       .withFaceLandmarks()
       .withFaceDescriptor();
+
+    writeFile('faces.txt', results.descriptor)
 
     const detections = await faceapi
       .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
