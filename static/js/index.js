@@ -62,7 +62,7 @@ video.addEventListener('play', () => {
   const displaySize = { width: video.width, height: video.height };
   faceapi.matchDimensions(canvas, displaySize);
 
-  setInterval(async () => {
+  let myVar = setInterval(async () => {
  
     const results = await faceapi
       .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
@@ -85,12 +85,19 @@ video.addEventListener('play', () => {
     const box = { x: detections.landmarks.positions[0].x, y: detections.landmarks.positions[0].y, width: 200, height: 200 }
     // see DrawBoxOptions below
     const drawOptions = {
-      label: bestMatch,
+      label: bestMatch.distance.toFixed(2),
       lineWidth: 2
     }
     const drawBox = new faceapi.draw.DrawBox(box, drawOptions)
     drawBox.draw(canvas)
 
     console.log(detections.landmarks.positions[0].x);
+    console.log(bestMatch)
   }, 100)
+
+  setTimeout(() => { 
+    console.log("STOP")
+    clearInterval(myVar); 
+  }, 10000);
+
 })
