@@ -1,5 +1,3 @@
-const { writeFile } = require("fs");
-
 const video = document.getElementById('video');
 
 var socket = io.connect('http://127.0.0.1:5000');
@@ -71,18 +69,16 @@ video.addEventListener('play', () => {
       .withFaceLandmarks()
       .withFaceDescriptor();
 
-    writeFile('faces.txt', results.descriptor)
-
     const detections = await faceapi
       .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
       .withFaceLandmarks()
       .withFaceDescriptor();
     // console.log(`Descriptor ${detections.detections}`)
     const faceMatcher = new faceapi.FaceMatcher(detections)
-    const bestMatch = faceMatcher.findBestMatch(results.descriptor)
-    socket.emit( 'my event', {
-      data: detections
-    })
+    const bestMatch = faceMatcher.matchDescriptor(results.descriptor)
+    // socket.emit( 'my event', {
+    //   data: detections
+    // })
     
     const resizedDetections = faceapi.resizeResults(detections, displaySize);
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
